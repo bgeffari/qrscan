@@ -1,7 +1,7 @@
 import QRReader from './vendor/qrscan.js';
 import { snackbar } from './snackbar.js';
 import styles from '../css/styles.css';
-import isURL from 'is-url';
+import isURL from 'is-url'
 
 //If service worker is installed, show offline usage notification
 if ('serviceWorker' in navigator) {
@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   var copiedText = null;
   var frame = null;
-  var selectPhotoBtn = document.querySelector('.app__select-photos');
+ 
   var dialogElement = document.querySelector('.app__dialog');
   var dialogOverlayElement = document.querySelector('.app__dialog-overlay');
   var dialogOpenBtnElement = document.querySelector('.app__dialog-open');
@@ -89,16 +89,37 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     QRReader.scan(result => {
-      copiedText = result;
-      textBoxEle.value = result;
-      textBoxEle.select();
+     
       scanningEle.style.display = 'none';
-      if (isURL(result)) {
-        dialogOpenBtnElement.style.display = 'inline-block';
+      console.log(result);
+      if(result.length > 13){
+        doCheckIn(result)
+        .then(response => {
+          // handle success response here
+          console.log(`Got success: ${response}`);
+          var resData = JSON.parse(response);
+          if (resData.Status == 0) {
+            document.getElementsByTagName("div").classList.replace("bg-success", "bg-danger");
+          } 
+
+          if (resData.Status == 2) {
+            div.classList.replace("bg-success", "bg-warning");
+          } 
+          document.querySelector('h5').innerText  = resData.Name;
+          document.querySelector('h4').innerText  = resData.Event;
+          document.querySelector('h6').innerText  = resData.StatusDiscreption;
+          dialogElement.classList.remove('app__dialog--hide');
+          dialogOverlayElement.classList.remove('app__dialog--hide');
+          const frame = document.querySelector('#frame');
+        })
+        .catch(error => {
+          // handle error here
+          console.log(`Got error: ${error}`);
+        }); ;
+        
       }
-      dialogElement.classList.remove('app__dialog--hide');
-      dialogOverlayElement.classList.remove('app__dialog--hide');
-      const frame = document.querySelector('#frame');
+      
+
       // if (forSelectedPhotos && frame) frame.remove();
     }, forSelectedPhotos);
   }
@@ -106,7 +127,7 @@ window.addEventListener('DOMContentLoaded', () => {
   //Hide dialog
   function hideDialog() {
     copiedText = null;
-    textBoxEle.value = '';
+   
 
     if (!window.isMediaStreamAPISupported) {
       frame.src = '';
@@ -115,39 +136,57 @@ window.addEventListener('DOMContentLoaded', () => {
 
     dialogElement.classList.add('app__dialog--hide');
     dialogOverlayElement.classList.add('app__dialog--hide');
+    div.classList.replace(/\bbg.*?\b/g, "bg-success");
     scan();
   }
 
-  function selectFromPhoto() {
-    //Creating the camera element
-    var camera = document.createElement('input');
-    camera.setAttribute('type', 'file');
-    camera.setAttribute('capture', 'camera');
-    camera.id = 'camera';
-    window.appOverlay.style.borderStyle = '';
-    selectPhotoBtn.style.display = 'block';
-    createFrame();
-
-    //Add the camera and img element to DOM
-    var pageContentElement = document.querySelector('.app__layout-content');
-    pageContentElement.appendChild(camera);
-    pageContentElement.appendChild(frame);
-
-    //Click of camera fab icon
-    selectPhotoBtn.addEventListener('click', () => {
-      scanningEle.style.display = 'none';
-      document.querySelector('#camera').click();
-    });
-
-    //On camera change
-    camera.addEventListener('change', event => {
-      if (event.target && event.target.files.length > 0) {
-        frame.className = 'app__overlay';
-        frame.src = URL.createObjectURL(event.target.files[0]);
-        if (!window.noCameraPermission) scanningEle.style.display = 'block';
-        window.appOverlay.style.borderColor = 'rgb(62, 78, 184)';
-        scan(true);
-      }
-    });
-  }
+  
 });
+
+    function doCheckIn(token) {
+
+      var https = require('https');
+      const url = "https://qcc.evntez.com/userCheckin/1" + token ;
+  return new Promise((resolve, reject) => {
+      https.get(url, (res) => {
+        var { statusCode } = res;
+        var contentType = res.headers['content-type'];
+
+        let error;
+
+        if (statusCode !== 200) {
+          error = new Error('Request Failed.\n' +
+            `Status Code: ${statusCode}`);
+        } else if (!/^application\/json/.test(contentType)) {
+          error = new Error('Invalid content-type.\n' +
+            `Expected application/json but received ${contentType}`);
+        }
+
+        if (error) {
+          // console.error(error.message);
+          // consume response data to free up memory
+          res.resume();
+        }
+
+        res.setEncoding('utf8');
+        let rawData = '';
+
+        res.on('data', (chunk) => {
+          rawData += chunk;
+        });
+
+        res.on('end', () => {
+          try {
+            const parsedData = rawData;
+            resolve(parsedData);
+          } catch (e) {
+            reject(`Got error: ${e.message}`);
+          }
+        });
+      }).on('error', (e) => {
+        reject(`Got error: ${e.message}`);
+      });
+
+    });
+
+    }
