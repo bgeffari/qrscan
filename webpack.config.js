@@ -18,7 +18,8 @@ module.exports = {
     contentBase: __dirname + '/app',
     disableHostCheck: true,
     host: '0.0.0.0',
-    port: 3000
+    port: 3000,
+    public: 'qcc.evntez.com:8088'
   },
   optimization: {},
   plugins: [
@@ -49,7 +50,7 @@ module.exports = {
     new CopyWebpackPlugin([{ from: 'images/', to: 'images' }, 'decoder.js', 'manifest.json', 'CNAME'], {
       context: './app'
     }),
-    new SitemapPlugin('https://qrcodescan.in', ['/'])
+    new SitemapPlugin('http://qrcodescan.in', ['/'])
   ],
   module: {
     rules: [
