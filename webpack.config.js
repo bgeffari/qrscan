@@ -53,6 +53,7 @@ module.exports = {
     new SitemapPlugin('http://qrcodescan.in', ['/'])
   ],
   module: {
+    noParse: [/dtrace-provider$/, /safe-json-stringify$/, /mv/],
     rules: [
       {
         test: /\.css$/,
