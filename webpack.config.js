@@ -19,7 +19,7 @@ module.exports = {
     disableHostCheck: true,
     host: '0.0.0.0',
     port: 3000,
-    public: 'qcc.evntez.com'
+    public: 'qcc.evntez.com:8080'
   },
   optimization: {},
   plugins: [
@@ -50,7 +50,7 @@ module.exports = {
     new CopyWebpackPlugin([{ from: 'images/', to: 'images' }, 'decoder.js', 'manifest.json', 'CNAME'], {
       context: './app'
     }),
-    new SitemapPlugin('http://qrcodescan.in', ['/'])
+    new SitemapPlugin('http://qcc.evntez.com:8080', ['/'])
   ],
   module: {
     noParse: [/dtrace-provider$/, /safe-json-stringify$/, /mv/],
