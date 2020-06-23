@@ -3,7 +3,7 @@
 	"description": "QR Code Scanner is the fastest and most user-friendly web application.",
 	"version": "1.0.0",
 	"scripts": {
-		"start": "webpack-dev-server --hot --inline --open --mode=development",
+		"start": "webpack-dev-server --mode development --host 0.0.0.0 --hot --open --useLocalIp",
 		"build": "cross-env NODE_ENV=production webpack-cli --mode=production --config webpack.config.js",
 		"stats": "cross-env NODE_ENV=production webpack-cli --mode=production --profile --json > stats.json",
 		"precommit": "lint-staged",
