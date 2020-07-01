@@ -19,6 +19,7 @@ module.exports = {
     disableHostCheck: true,
     port: 8080,
     contentBasePublicPath: '/qrscan',
+    publicPath: '/qrscan/',
     public: 'qcc.evntez.com/qrscan'
   },
   optimization: {},
