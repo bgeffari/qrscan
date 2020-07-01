@@ -17,7 +17,7 @@ module.exports = {
   devServer: {
     contentBase: __dirname + '/app',
     disableHostCheck: true,
-    host: '0.0.0.0',
+    host: 'qcc.evntez.com',
     port: 8080
   },
   optimization: {},
