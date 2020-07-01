@@ -17,7 +17,6 @@ module.exports = {
   devServer: {
     contentBase: __dirname + '/app',
     disableHostCheck: true,
-    host: 'qcc.evntez.com',
     port: 8080,
     public: 'https://qcc.evntez.com/qrscan'
   },
