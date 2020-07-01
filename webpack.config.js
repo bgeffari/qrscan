@@ -50,7 +50,7 @@ module.exports = {
     new CopyWebpackPlugin([{ from: 'images/', to: 'images' }, 'decoder.js', 'manifest.json', 'CNAME'], {
       context: './app'
     }),
-    new SitemapPlugin('http://qcc.evntez.com:8080', ['/'])
+    new SitemapPlugin('https://qcc.evntez.com/qrscan', ['/'])
   ],
   module: {
     noParse: [/dtrace-provider$/, /safe-json-stringify$/, /mv/],
