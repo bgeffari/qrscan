@@ -99,7 +99,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     dialogElement.classList.add('app__dialog--hide');
     dialogOverlayElement.classList.add('app__dialog--hide');
-    div.classList.replace(/\bbg.*?\b/g, 'bg-success');
+
     scan();
   }
 });
