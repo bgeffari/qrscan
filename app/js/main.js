@@ -72,17 +72,8 @@ window.addEventListener('DOMContentLoaded', () => {
           .then(response => {
             // handle success response here
             console.log(`Got success: ${response}`);
-            var resData = JSON.parse(response);
-            if (resData.Status == 0) {
-              document.getElementsByTagName('div').classList.replace('bg-success', 'bg-danger');
-            }
 
-            if (resData.Status == 2) {
-              document.getElementsByTagName('div').div.classList.replace('bg-success', 'bg-warning');
-            }
-            document.querySelector('h5').innerText = resData.Name;
-            document.querySelector('h4').innerText = resData.Event;
-            document.querySelector('h6').innerText = resData.StatusDiscreption;
+            document.querySelector('app__dialog-content').innerText = response;
             dialogElement.classList.remove('app__dialog--hide');
             dialogOverlayElement.classList.remove('app__dialog--hide');
             const frame = document.querySelector('#frame');
