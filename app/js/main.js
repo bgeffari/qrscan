@@ -1,25 +1,5 @@
 import QRReader from './vendor/qrscan.js';
-import { snackbar } from './snackbar.js';
 import styles from '../css/styles.css';
-import isURL from 'is-url';
-
-//If service worker is installed, show offline usage notification
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/service-worker.js')
-      .then(reg => {
-        console.log('SW registered: ', reg);
-        if (!localStorage.getItem('offline')) {
-          localStorage.setItem('offline', true);
-          snackbar.show('App is ready for offline usage.', 5000);
-        }
-      })
-      .catch(regError => {
-        console.log('SW registration failed: ', regError);
-      });
-  });
-}
 
 window.addEventListener('DOMContentLoaded', () => {
   //To check the device and add iOS support
@@ -98,7 +78,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
 
             if (resData.Status == 2) {
-              div.classList.replace('bg-success', 'bg-warning');
+              document.getElementsByTagName('div').div.classList.replace('bg-success', 'bg-warning');
             }
             document.querySelector('h5').innerText = resData.Name;
             document.querySelector('h4').innerText = resData.Event;
@@ -135,7 +115,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function doCheckIn(token) {
   var https = require('https');
-  const url = 'https://qcc.evntez.com/userCheckin/1' + token;
+  const url = 'https://qcc.evntez.com/userCheckin/' + token;
   return new Promise((resolve, reject) => {
     https
       .get(url, res => {
