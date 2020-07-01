@@ -17,7 +17,9 @@ module.exports = {
   devServer: {
     contentBase: __dirname + '/app',
     disableHostCheck: true,
-    port: 8080
+    port: 8080,
+    contentBasePublicPath: '/qrscan',
+    public: 'qcc.evntez.com/qrscan'
   },
   optimization: {},
   plugins: [
