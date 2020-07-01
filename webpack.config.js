@@ -19,7 +19,7 @@ module.exports = {
     disableHostCheck: true,
     port: 8080,
     public: 'https://qcc.evntez.com/qrscan',
-    sockPath: '/qrscan'
+    sockPath: '/qrscan/sockjs-node'
   },
   optimization: {},
   plugins: [
