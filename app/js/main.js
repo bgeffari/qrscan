@@ -73,7 +73,7 @@ window.addEventListener('DOMContentLoaded', () => {
             // handle success response here
             console.log(`Got success: ${response}`);
 
-            document.querySelector('app__dialog-content').innerText = response;
+            document.querySelector('div.app__dialog-content').innerText = response;
             dialogElement.classList.remove('app__dialog--hide');
             dialogOverlayElement.classList.remove('app__dialog--hide');
             const frame = document.querySelector('#frame');
